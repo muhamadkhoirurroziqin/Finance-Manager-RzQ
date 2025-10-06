@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Finance Manager RzQ</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  </head>
+  <body>
+    <!-- AUTH -->
+  <div id="auth-screen" class="auth-wrap">
+    <div class="auth-card">
+      <h2 id="auth-title">Login</h2>
+      <p id="auth-desc" class="small">Masuk untuk membuka Finance Manager.</p>
+
+      <form id="setup-form" style="display:none;">
+        <input id="setup-password" type="password" placeholder="Buat PIN / Password" required />
+        <input id="setup-password-confirm" type="password" placeholder="Ulangi PIN / Password" required />
+        <button type="submit">Buat PIN</button>
+        <div class="small">PIN/password disimpan aman (hash). Digunakan juga untuk menghasilkan kunci enkripsi.</div>
+      </form>
+
+      <form id="login-form">
+        <input id="login-password" type="password" placeholder="Masukkan PIN / Password" required />
+        <button type="submit">Login</button>
+        <div style="display:flex;justify-content:space-between;margin-top:.6rem;">
+          <button id="forgot-btn" type="button" class="ghost">Reset Data (jika lupa)</button>
+        </div>
+        <div class="small" style="margin-top:.6rem;">Jika belum memiliki PIN, akan diminta membuat PIN saat pertama kali.</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <header>
+    <div class="title">Finance Manager RzQ</div>
+    <div style="display:flex;gap:.5rem;align-items:center;">
+      <button id="change-pin" class="ghost">🔒 Ganti PIN</button>
+      <button id="logout" class="ghost">🚪 Logout</button>
+      <button id="theme-toggle" class="theme-toggle">🌙</button>
+    </div>
+  </header>
+
+  <div class="container" id="app-container">
+    <div class="card balance">
+      <h3>Total Saldo</h3>
+      <h2 id="balance">Rp0</h2>
+    </div>
+
+    <div class="card">
+      <h3>Tambah Transaksi</h3>
+      <form id="transaction-form">
+        <input type="text" id="desc" placeholder="Deskripsi" required />
+        <input type="number" id="amount" placeholder="Jumlah (Rp)" required />
+        <input type="date" id="date" required />
+        <select id="type"><option value="income">Pemasukan</option><option value="expense">Pengeluaran</option></select>
+        <button type="submit">Tambah</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <div class="filter">
+        <div><label for="filter-month">Filter Bulan:</label><input type="month" id="filter-month" /></div>
+        <div style="display:flex;gap:.5rem;">
+          <button id="export-btn">Export Excel</button>
+          <button id="backup-btn" class="ghost">💾 Backup (terenkripsi)</button>
+          <input type="file" id="restore-file" />
+          <button id="restore-btn" class="ghost">🔁 Restore (terenkripsi)</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card"><h3>Grafik Keuangan</h3><canvas id="financeChart"></canvas></div>
+    <div class="card"><h3>Laporan Bulanan</h3><div id="monthly-report" class="report"></div></div>
+
+    <div class="card">
+      <h3>Reminder Tagihan Bulanan</h3>
+      <form id="reminder-form">
+        <input type="text" id="reminder-name" placeholder="Nama Tagihan (contoh: Listrik)" required />
+        <input type="date" id="reminder-date" required />
+        <button type="submit">Tambah Pengingat</button>
+      </form>
+      <div id="reminder-list"></div>
+      <div id="reminder-alert" class="alert" style="display:none;"></div>
+    </div>
+
+    <div class="card"><h3>Riwayat Transaksi</h3><div id="transaction-list"></div></div>
+  </div>
+
+      <div class="card">
+        <h3>⚙️ Pengaturan Keamanan</h3>
+        <label for="lock-time">Auto-Lock setelah tidak aktif:</label>
+        <select id="lock-time">
+          <option value="3">3 menit</option>
+          <option value="5" selected>5 menit</option>
+          <option value="10">10 menit</option>
+          <option value="15">15 menit</option>
+          <option value="30">30 menit</option>
+        </select>
+        <small>Data otomatis tersimpan sebelum terkunci.</small>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
